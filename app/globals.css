@@ -1,26 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4ead9;
+  --foreground: #3d2f28;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-paper: #f4ead9;
+  --color-ink: #3d2f28;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-hand: var(--font-caveat);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Subtle paper grain like the collage inspiration */
+.paper {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(rgba(120, 90, 60, 0.055) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1.2px);
+  background-size: 7px 7px, 11px 11px;
+  background-position: 0 0, 4px 6px;
+}
+
+/* Leopard print for the party hat */
+.leopard {
+  background-color: #d3a86b;
+  background-image:
+    radial-gradient(circle at 20% 30%, #3d2b1f 0 7%, transparent 8%),
+    radial-gradient(circle at 65% 15%, #3d2b1f 0 6%, transparent 7%),
+    radial-gradient(circle at 45% 55%, #3d2b1f 0 8%, transparent 9%),
+    radial-gradient(circle at 80% 60%, #3d2b1f 0 6%, transparent 7%),
+    radial-gradient(circle at 25% 80%, #3d2b1f 0 7%, transparent 8%),
+    radial-gradient(circle at 60% 88%, #3d2b1f 0 6%, transparent 7%),
+    radial-gradient(circle at 90% 35%, #3d2b1f 0 5%, transparent 6%);
 }
