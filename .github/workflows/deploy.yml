@@ -1,0 +1,53 @@
+name: Deploy to Netcup (Plesk)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  # Public by design (baked into the client bundle) — no need for a secret.
+  NEXT_PUBLIC_SITE_URL: https://party.kek0.de
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # `output: "standalone"` bundles server.js + only the required node_modules.
+      # .next/static is left out (meant for a CDN) and must be copied in by hand;
+      # `mkdir -p` + trailing-slash copy keeps this safe whether or not `public`
+      # was already staged by the build.
+      - name: Assemble standalone output
+        run: |
+          mkdir -p .next/standalone/public
+          cp -r public/. .next/standalone/public/
+          mkdir -p .next/standalone/.next/static
+          cp -r .next/static/. .next/standalone/.next/static/
+          # Fresh content each run -> fresh mtime on upload -> Phusion Passenger
+          # (Plesk's Node.js Selector) restarts the app, no SSH needed.
+          mkdir -p .next/standalone/tmp
+          echo "${{ github.sha }}" > .next/standalone/tmp/restart.txt
+
+      - name: Upload via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: .next/standalone/
+          server-dir: party/
