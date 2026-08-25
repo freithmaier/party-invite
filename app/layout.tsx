@@ -21,11 +21,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "Theresa wird 25 – Geburtstagsparty 🎉",
   description:
-    "Du bist herzlich eingeladen! 12. September, ab 19:00 Uhr · Buchenweg 1, 94447 Plattling. Öffne deine persönliche Einladung und sag zu! 🍻",
+    "Du bist herzlich eingeladen! 5. September, ab 19:00 Uhr · Buchenweg 1, 94447 Plattling. Öffne deine persönliche Einladung und sag zu! 🍻",
   openGraph: {
     title: "Theresa wird 25 – Geburtstagsparty 🎉",
     description:
-      "Du bist herzlich eingeladen! 12. September, ab 19:00 Uhr · Buchenweg 1, 94447 Plattling.",
+      "Du bist herzlich eingeladen! 5. September, ab 19:00 Uhr · Buchenweg 1, 94447 Plattling.",
     siteName: "Theresas Geburtstagsparty",
     locale: "de_DE",
     type: "website",

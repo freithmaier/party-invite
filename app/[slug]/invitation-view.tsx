@@ -414,7 +414,7 @@ export default function InvitationView({ slug, name, persons, notes }: Props) {
               Wann?
             </p>
             <h2 className="mt-3 text-3xl font-bold">
-              <RansomText text="12. SEPTEMBER" />
+              <RansomText text="5. SEPTEMBER" />
             </h2>
             <motion.p
               initial={{ opacity: 0, scale: 0.7 }}

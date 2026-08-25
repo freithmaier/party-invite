@@ -143,7 +143,7 @@ export async function renderPartyOgImage(name?: string) {
             {name ? `Hallo ${name}! 🎉` : "Du bist eingeladen! 🎉"}
           </div>
           <div style={{ display: "flex", fontSize: 42, fontWeight: 700, color: "#3d2f28" }}>
-            12. September · ab 19:00 Uhr
+            5. September · ab 19:00 Uhr
           </div>
           <div style={{ display: "flex", fontSize: 30, color: "#7a5c40" }}>
             Buchenweg 1, 94447 Plattling

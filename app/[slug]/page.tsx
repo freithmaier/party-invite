@@ -11,7 +11,7 @@ export async function generateMetadata({
   if (!invitation) return { title: "Einladung nicht gefunden" };
   const title = `${invitation.name}, du bist eingeladen! 🎉`;
   const description =
-    "Theresa wird 25! 🪩 12. September, ab 19:00 Uhr · Buchenweg 1, 94447 Plattling. Öffne die Einladung und sag zu!";
+    "Theresa wird 25! 🪩 5. September, ab 19:00 Uhr · Buchenweg 1, 94447 Plattling. Öffne die Einladung und sag zu!";
   return {
     title,
     description,
