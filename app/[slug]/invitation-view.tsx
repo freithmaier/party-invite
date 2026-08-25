@@ -60,39 +60,49 @@ function RansomText({
   delay?: number;
   className?: string;
 }) {
+  // Each word is its own nowrap flex group so the outer wrap can only ever
+  // break between words, never between two letters of the same word.
   return (
     <motion.span
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.6 }}
-      className={`inline-flex flex-wrap justify-center gap-x-0.5 ${className ?? ""}`}
+      className={`inline-flex flex-wrap justify-center gap-x-3 ${className ?? ""}`}
     >
-      {text.split("").map((char, i) => {
-        if (char === " ") return <span key={i} className="w-3" />;
-        const color = RANSOM_COLORS[(i * 3 + 1) % RANSOM_COLORS.length];
-        const font = RANSOM_FONTS[(i * 5 + 2) % RANSOM_FONTS.length];
-        const rotate = ((i * 7) % 13) - 6;
-        const filled = (i * 11) % 3 !== 0;
+      {text.split(" ").map((word, wordIdx) => {
         return (
-          <motion.span
-            key={i}
-            custom={{ i, base: delay }}
-            variants={letterPop}
-            className="inline-block"
-          >
-            <span
-              className="inline-block px-1 leading-none"
-              style={{
-                fontFamily: font,
-                transform: `rotate(${rotate}deg)`,
-                backgroundColor: filled ? color.bg : "transparent",
-                color: filled ? color.fg : color.bg,
-                textTransform: (i * 13) % 4 === 0 ? "lowercase" : "uppercase",
-              }}
-            >
-              {char}
-            </span>
-          </motion.span>
+          <span key={wordIdx} className="inline-flex flex-nowrap gap-x-0.5">
+            {word.split("").map((char, j) => {
+              // Combine word + letter position for a stable, varied-looking
+              // pseudo-random pattern without a cross-word running counter.
+              const i = wordIdx * 100 + j;
+              const color = RANSOM_COLORS[(i * 3 + 1) % RANSOM_COLORS.length];
+              const font = RANSOM_FONTS[(i * 5 + 2) % RANSOM_FONTS.length];
+              const rotate = ((i * 7) % 13) - 6;
+              const filled = (i * 11) % 3 !== 0;
+              return (
+                <motion.span
+                  key={i}
+                  custom={{ i, base: delay }}
+                  variants={letterPop}
+                  className="inline-block"
+                >
+                  <span
+                    className="inline-block px-1 leading-none"
+                    style={{
+                      fontFamily: font,
+                      transform: `rotate(${rotate}deg)`,
+                      backgroundColor: filled ? color.bg : "transparent",
+                      color: filled ? color.fg : color.bg,
+                      textTransform: (i * 13) % 4 === 0 ? "lowercase" : "uppercase",
+                    }}
+                  >
+                    {char}
+                  </span>
+                </motion.span>
+              );
+            })}
+          </span>
         );
       })}
     </motion.span>
