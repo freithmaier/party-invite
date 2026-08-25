@@ -70,12 +70,17 @@ function RansomText({
       className={`inline-flex flex-wrap justify-center gap-x-3 ${className ?? ""}`}
     >
       {text.split(" ").map((word, wordIdx) => {
+        // Pure (no mutation): global letter position, skipping spaces, so
+        // the pop-in stagger stays a smooth 0, 1, 2, ... across the whole
+        // string instead of jumping several seconds at each word boundary.
+        const wordStartIndex = text
+          .split(" ")
+          .slice(0, wordIdx)
+          .reduce((sum, w) => sum + w.length, 0);
         return (
           <span key={wordIdx} className="inline-flex flex-nowrap gap-x-0.5">
             {word.split("").map((char, j) => {
-              // Combine word + letter position for a stable, varied-looking
-              // pseudo-random pattern without a cross-word running counter.
-              const i = wordIdx * 100 + j;
+              const i = wordStartIndex + j;
               const color = RANSOM_COLORS[(i * 3 + 1) % RANSOM_COLORS.length];
               const font = RANSOM_FONTS[(i * 5 + 2) % RANSOM_FONTS.length];
               const rotate = ((i * 7) % 13) - 6;
