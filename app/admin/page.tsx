@@ -117,7 +117,7 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
               )}
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <CopyButton slug={inv.slug} />
-                <WhatsappShareButton slug={inv.slug} name={inv.name} />
+                <WhatsappShareButton slug={inv.slug} />
                 <a
                   href={`/${inv.slug}`}
                   target="_blank"

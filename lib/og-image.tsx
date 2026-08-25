@@ -83,11 +83,11 @@ export async function renderPartyOgImage(name?: string) {
           <img src={discoSrc} alt="" width={100} height={131} style={{ display: "flex" }} />
 
           <div style={{ display: "flex", alignItems: "center" }}>
-            <span style={{ fontSize: 46, fontWeight: 800, color: "#e0393e" }}>THERESA</span>
-            <span style={{ fontSize: 46, fontWeight: 800, color: "#3d2f28", marginLeft: 16 }}>
+            <span style={{ fontSize: 52, fontWeight: 800, color: "#e0393e" }}>THERESA</span>
+            <span style={{ fontSize: 52, fontWeight: 800, color: "#3d2f28", marginLeft: 16 }}>
               WIRD
             </span>
-            <span style={{ fontSize: 46, fontWeight: 800, color: "#2b6fb3", marginLeft: 16 }}>
+            <span style={{ fontSize: 52, fontWeight: 800, color: "#2b6fb3", marginLeft: 16 }}>
               25!
             </span>
           </div>
@@ -135,23 +135,18 @@ export async function renderPartyOgImage(name?: string) {
             alignItems: "center",
             justifyContent: "center",
             flex: 1,
-            gap: 14,
+            gap: 20,
             textAlign: "center",
           }}
         >
-          {name && (
-            <div style={{ display: "flex", fontSize: 38, fontWeight: 700, color: "#7a4f2a" }}>
-              Hallo {name}, du bist eingeladen! 🎉
-            </div>
-          )}
-          <div style={{ display: "flex", fontSize: 28, fontWeight: 700, color: "#3d2f28" }}>
+          <div style={{ display: "flex", fontSize: 64, fontWeight: 800, color: "#7a4f2a" }}>
+            {name ? `Hallo ${name}! 🎉` : "Du bist eingeladen! 🎉"}
+          </div>
+          <div style={{ display: "flex", fontSize: 42, fontWeight: 700, color: "#3d2f28" }}>
             12. September · ab 19:00 Uhr
           </div>
-          <div style={{ display: "flex", fontSize: 22, color: "#7a5c40" }}>
+          <div style={{ display: "flex", fontSize: 30, color: "#7a5c40" }}>
             Buchenweg 1, 94447 Plattling
-          </div>
-          <div style={{ display: "flex", fontSize: 24, color: "#3d2f28" }}>
-            🍺 Bier & Aperol Spritz 🥂 · Musik · gute Laune
           </div>
         </div>
       </div>

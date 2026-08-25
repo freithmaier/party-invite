@@ -1,16 +1,9 @@
 "use client";
 
-export default function WhatsappShareButton({
-  slug,
-  name,
-}: {
-  slug: string;
-  name: string;
-}) {
+export default function WhatsappShareButton({ slug }: { slug: string }) {
   function share() {
     const link = `${window.location.origin}/${slug}`;
-    const text = `Hallo ${name}, du bist herzlich eingeladen zu Theresas Geburtstagsparty am 12. September ab 19:00 Uhr! 🎉\n${link}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://wa.me/?text=${encodeURIComponent(link)}`, "_blank");
   }
 
   return (
