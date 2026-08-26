@@ -18,9 +18,10 @@ export async function submitRsvp(
     return { ok: false, error: "Diese Einladung existiert nicht mehr." };
   }
 
-  const persons = Number(formData.get("persons"));
-  if (![1, 2, 3].includes(persons)) {
-    return { ok: false, error: "Bitte wähle aus, mit wie vielen Personen du kommst." };
+  const personsRaw = formData.get("persons");
+  const persons = personsRaw === null ? NaN : Number(personsRaw);
+  if (![0, 1, 2, 3].includes(persons)) {
+    return { ok: false, error: "Bitte wähle eine der Optionen aus." };
   }
 
   const notes = String(formData.get("notes") ?? "").slice(0, 500);

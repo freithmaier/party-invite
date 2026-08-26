@@ -10,6 +10,8 @@ const PERSON_OPTIONS = [
   { value: 3, label: "Wir kommen zu dritt", emoji: "👨‍👩‍👧" },
 ];
 
+const DECLINE_OPTION = { value: 0, label: "Ich hab leider keine Zeit", emoji: "😢" };
+
 type Props = {
   slug: string;
   persons: number | null;
@@ -29,6 +31,7 @@ export default function RsvpForm({ slug, persons, notes }: Props) {
   const [selected, setSelected] = useState<number>(persons ?? 1);
 
   const hasResponded = persons !== null;
+  const isDeclined = persons === DECLINE_OPTION.value;
   const showConfirmation = (state.ok || hasResponded) && !editing;
 
   return (
@@ -48,15 +51,18 @@ export default function RsvpForm({ slug, persons, notes }: Props) {
             exit={{ opacity: 0, scale: 0.9 }}
             className="text-center"
           >
-            <div className="text-5xl">🎉</div>
-            <p className="mt-4 text-xl font-bold">Deine Zusage ist da!</p>
+            <div className="text-5xl">{isDeclined ? "😢" : "🎉"}</div>
+            <p className="mt-4 text-xl font-bold">
+              {isDeclined ? "Schade, du kannst nicht kommen." : "Deine Zusage ist da!"}
+            </p>
             {hasResponded && (
               <p className="mt-2 text-[#7a5c40]">
-                {PERSON_OPTIONS.find((o) => o.value === persons)?.label ??
-                  `${persons} Personen`}
+                {!isDeclined &&
+                  (PERSON_OPTIONS.find((o) => o.value === persons)?.label ??
+                    `${persons} Personen`)}
                 {notes && (
                   <>
-                    <br />
+                    {!isDeclined && <br />}
                     <span
                       className="text-2xl"
                       style={{ fontFamily: "var(--font-caveat), cursive" }}
@@ -106,6 +112,25 @@ export default function RsvpForm({ slug, persons, notes }: Props) {
               </label>
             ))}
 
+            <label
+              className={`mt-2 flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed px-4 py-3 transition-colors ${
+                selected === DECLINE_OPTION.value
+                  ? "border-[#a3866a] bg-[#f4e9dc]"
+                  : "border-[#e0cdb2] text-[#a3866a] hover:border-[#a3866a]"
+              }`}
+            >
+              <input
+                type="radio"
+                name="persons"
+                value={DECLINE_OPTION.value}
+                checked={selected === DECLINE_OPTION.value}
+                onChange={() => setSelected(DECLINE_OPTION.value)}
+                className="sr-only"
+              />
+              <span className="text-2xl grayscale">{DECLINE_OPTION.emoji}</span>
+              <span className="font-semibold">{DECLINE_OPTION.label}</span>
+            </label>
+
             <label className="mt-3 flex flex-col gap-2">
               <span
                 className="text-2xl text-[#a3866a]"
@@ -131,9 +156,17 @@ export default function RsvpForm({ slug, persons, notes }: Props) {
               type="submit"
               disabled={isPending}
               whileTap={{ scale: 0.96 }}
-              className="mt-2 rounded-full bg-[#e0393e] px-6 py-3 text-lg font-bold text-[#fdf6ec] shadow-md transition-transform hover:scale-[1.02] disabled:opacity-60"
+              className={`mt-2 rounded-full px-6 py-3 text-lg font-bold shadow-md transition-transform hover:scale-[1.02] disabled:opacity-60 ${
+                selected === DECLINE_OPTION.value
+                  ? "bg-[#7a5c40] text-[#fdf6ec]"
+                  : "bg-[#e0393e] text-[#fdf6ec]"
+              }`}
             >
-              {isPending ? "Wird gesendet …" : "Zusage senden 🎉"}
+              {isPending
+                ? "Wird gesendet …"
+                : selected === DECLINE_OPTION.value
+                  ? "Absage senden 😢"
+                  : "Zusage senden 🎉"}
             </motion.button>
           </motion.form>
         )}

@@ -5,7 +5,7 @@ import { getDb } from "./mongodb";
 export type Invitation = {
   slug: string;
   name: string;
-  /** null = noch keine Antwort, 1 = kommt allein, 2/3 = kommt mit Begleitung */
+  /** null = noch keine Antwort, 0 = abgesagt, 1 = kommt allein, 2/3 = kommt mit Begleitung */
   persons: number | null;
   notes: string;
   createdAt: Date;

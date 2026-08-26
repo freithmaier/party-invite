@@ -22,7 +22,10 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
   }
 
   const invitations = await listInvitations();
-  const accepted = invitations.filter((i) => i.persons !== null);
+  const accepted = invitations.filter(
+    (i) => i.persons !== null && i.persons >= 1 && i.persons <= 3
+  );
+  const declined = invitations.filter((i) => i.persons === 0);
   const totalGuests = accepted.reduce((sum, i) => sum + (i.persons ?? 0), 0);
 
   return (
@@ -41,11 +44,12 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
         </div>
 
         {/* Übersicht */}
-        <div className="mt-5 grid grid-cols-3 gap-2 text-center">
+        <div className="mt-5 grid grid-cols-2 gap-2 text-center">
           {[
             { label: "Einladungen", value: invitations.length },
             { label: "Zusagen", value: accepted.length },
             { label: "Gäste", value: totalGuests },
+            { label: "Absagen", value: declined.length },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -100,13 +104,17 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
                   <div className="truncate text-lg font-bold">{inv.name}</div>
                   <div className="truncate text-xs text-[#a3866a]">/{inv.slug}</div>
                 </div>
-                {inv.persons !== null ? (
-                  <span className="shrink-0 rounded-full bg-[#e4f2e5] px-3 py-1 text-xs font-semibold text-[#2f6b33]">
-                    ✓ {inv.persons} {inv.persons === 1 ? "Person" : "Personen"}
-                  </span>
-                ) : (
+                {inv.persons === null ? (
                   <span className="shrink-0 rounded-full bg-[#f4e9dc] px-3 py-1 text-xs font-semibold text-[#a3866a]">
                     Ausstehend
+                  </span>
+                ) : inv.persons === 0 ? (
+                  <span className="shrink-0 rounded-full bg-[#f0e6d8] px-3 py-1 text-xs font-semibold text-[#7a5c40]">
+                    ✕ Abgesagt
+                  </span>
+                ) : (
+                  <span className="shrink-0 rounded-full bg-[#e4f2e5] px-3 py-1 text-xs font-semibold text-[#2f6b33]">
+                    ✓ {inv.persons} {inv.persons === 1 ? "Person" : "Personen"}
                   </span>
                 )}
               </div>
